@@ -1,56 +1,41 @@
 {% extends 'base.html' %}
+{% load static %}  {# Load static at the top #}
 
 {% block content %}
-<div class="col-md-6 offset-md-3">
-    {% if user.is_authenticated %}
-        <h1>Welcome {{ user.username }}. Theeese are the records:</h1>
-        {% if records %}
-        <table class="table table-striped table-hover table-bordered table-responsive">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Address</th>
-                <th scope="col">Email</th>
-                <th scope="col">City</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Created</th>
-                <th scope="col">ID</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for record in records %}
-              <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{ record.first_name }}</td>
-                <td>{{ record.last_name }}</td>
-                <td>{{ record.address }}</td>
-                <td>{{ record.email }}</td>
-                <td>{{ record.city }}</td>
-                <td>{{ record.phone }}</td>
-                <td>{{ record.created }}</td>
-                <td>{{ record.id }}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-            <p>No records found.</p>
-        {% endif %}
-    {% else %}
-        <h1>Login</h1>
-        <br />
-        <form method="POST" action="{% url 'home' %}">
-            {% csrf_token %}
-            <div class="mb-3">
-                <input type="text" class="form-control" name="username" placeholder="Username" required>
+    <nav class="navbar">
+        <div class="logo">Limitless</div>
+        <ul class="nav-links">
+            <li><a onclick="navigate('{% url 'home' %}')">🏛️ Home</a></li>
+            <li><a onclick="navigate('{% url 'about' %}')">About Us</a></li>
+        </ul>
+        <input type="text" placeholder="Rechercher..." class="search-bar">
+        <div class="auth-links">
+            <a onclick="navigate('{% url 'signIN' %}')">Sign In</a>
+            <a onclick="navigate('{% url 'register' %}')">Sign Up</a>
+        </div>
+    </nav>
+
+    <main class="content">
+        <center><h1>Catégories</h1></center>
+        <div class="categories">
+            <div class="category netflix">
+                <a onclick="navigate('{% url 'netflix_page' %}')">
+                    <img src="{% static 'images/netflix.jpg' %}" style="width: 400px; height: 250px;">
+                </a>
             </div>
-            <div class="mb-3">
-                <input type="password" class="form-control" name="password" placeholder="Password" required>
+            <div class="category spotify">
+                <a onclick="navigate('{% url 'spotify_page' %}')">
+                    <img src="{% static 'images/spotify.gif' %}" style="width: 400px; height: 250px;">
+                </a>
             </div>
-            <button type="submit" class="btn btn-secondary">Login</button>
-        </form>
-    {% endif %}
-</div>
+        </div>
+    </main>
+
+    <script>
+        function navigate(url) {
+            window.location.href = url;
+        }
+    </script>
+
+    <script src="{% static 'script.js' %}"></script>
 {% endblock %}
